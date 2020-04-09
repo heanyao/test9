@@ -37,7 +37,7 @@ function ajaxPage(page) {
                         list.forEach((value) => {
                             console.log(value)
                             console.log(stre)
-                            stre = stre.replace(`[${value}]`, `<img class="imgE" src="${index_url}/images/emoji/${value}" alt />`)
+                            stre = stre.replace(`[${value}]`, `<img class="imgE" src="./images/emoji/${value}" alt />`)
                         })
                         htmlStr = htmlStr + `<div class="f-comment1-words">${stre}</div>`
                     } else {
@@ -59,7 +59,7 @@ function ajaxPage(page) {
                         }
                     })
                     imgStr.html(imgLength)
-                    htmlStr = htmlStr + `</div>`
+                    htmlStr = htmlStr + '</div>';
                 }
                 let aTime = getMyDate(value.create_time * 1000)
                 htmlStr = htmlStr + `<div class="f-comment-operation f-comment-operation1">
@@ -71,6 +71,7 @@ function ajaxPage(page) {
                             </div>`
                 if (value.children) {
                     value.children.forEach((item) => {
+						
                         let time = getMyDate(item.create_time * 1000)
                         let sters = ''
                         if (item.introduce.indexOf('.gif') > -1) {
@@ -81,41 +82,50 @@ function ajaxPage(page) {
                             list.forEach((item1) => {
                                 console.log(item1)
                                 console.log(stre)
-                                stre = stre.replace(`[${item1}]`, `<img class="imgE imgE1" src="${index_url}/images/emoji/${item1}" alt />`)
+                                stre = stre.replace(`[${item1}]`, `<img class="imgE imgE1" src="./images/emoji/${item1}" alt />`)
                             })
                             sters = `<div class="f-comment-child-words">${stre}</div>`
                         } else {
                             sters = `<div class="f-comment-child-words">${item.introduce}</div>`
                         }
+
                         let t = `
+						<div class="child_items">
                         <div class="f-comment-child">
+							<div class="f_row">
                             <div class="f-comment-child-photo">
                                 <img src="${urls}${item.head_img_url}" alt="">
                             </div>
-                            <div class="f-comment-child-name">${item.name}</div>${sters}
-                        </div>
-                        <div class="f-comment-operation f-comment-operation1">
+							<div class="f-comment-child-name">${item.name}</div>
+							</div>
+                            ${sters}
+                        </div>`;
+						
+						if (item.comment_pics) {
+						    let imgStr = $('<div>')
+						    imgStr.attr("class", 'f-comment1-pic')
+						    t = t + `<div class="f-comment1-pic">`
+						    let imgList = item.comment_pics.split(',')
+						    let imgLength = ''
+						    imgList.forEach((img) => {
+						        let srcImg = img.replace(/\\/g, '/')
+						        imgLength = imgLength + srcImg
+						        if (srcImg.length > 5) {
+						            t = t + `<img src="${urls}${srcImg}" alt="">`
+						        }
+						    })
+						    imgStr.html(imgLength)
+						    t = t + '</div>'
+						}
+						
+						
+						t =t + `<div class="f-comment-operation f-comment-operation1">
                             <div class="f-comment-time">${time}</div>
-                        </div>`
+                        </div></div>`
 
                         htmlStr = htmlStr + t
 
-                        if (item.comment_pics) {
-                            let imgStr = $('<div>')
-                            imgStr.attr("class", 'f-comment1-pic')
-                            htmlStr = htmlStr + `<div class="f-comment1-pic">`
-                            let imgList = item.comment_pics.split(',')
-                            let imgLength = ''
-                            imgList.forEach((img) => {
-                                let srcImg = img.replace(/\\/g, '/')
-                                imgLength = imgLength + srcImg
-                                if (srcImg.length > 5) {
-                                    htmlStr = htmlStr + `<img src="${urls}${srcImg}" alt="">`
-                                }
-                            })
-                            imgStr.html(imgLength)
-                            htmlStr = htmlStr + `</div>`
-                        }
+                       
                     })
                 }
                 wrapStr.html(htmlStr)

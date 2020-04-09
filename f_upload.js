@@ -68,10 +68,10 @@ function removeImg1(obj, index) {
 	console.log(boxId)
 	addNewContent1(boxId);
 }
-//子回复上传(将文件流数组传到后台)
+//上传(将文件流数组传到后台)
 function submitPicture1(url, data) {
 	console.log(data);
-	// alert('请打开控制台查看传递参数！');
+	alert('请打开控制台查看传递参数！');
 	if (url && data) {
 		$.ajax({
 			type: "post",
@@ -80,28 +80,7 @@ function submitPicture1(url, data) {
 			data: data,
 			processData: false,
 			contentType: false,
-			success: function (data) {
-            if (data.code==400) {
-                Dialog.warn("温馨提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-            }else if(data.code==200){
-                Dialog.success("温馨提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-				setTimeout(function(){
-					window.location.reload();
-				}, 2000);
-				// Dialog
-				// ({
-				// 	title: "温馨提示",
-				// 	content: data.msg,
-				// 	afterClose: function () {
-				// 		window.location.reload();
-				// 	}
-				// });
-            }else{
-               Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-            }
+			success: function (dat) {
 				//			console.log(dat);
 				imgSrc1 = []; //图片路径
 				imgFile1 = []; //文件流

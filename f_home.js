@@ -7,31 +7,16 @@ imgUpload({
     data: 'image[]' //参数名
 });
 
- 
 /*实现顶功能*/
 $(".f-putimg").find("img").click(function () {
     let Aid = $("#articleId").html();;  // 用户id
     let Nums = $(this).attr("num");;  // 是否已经顶了
     $.ajax({
-        url: `${urls}/articles/ding/${Aid}/${Nums}`,
+        url: `${urls}/index/article/addDing?artId=${Aid}&type=${Nums}`,
         type: 'get',
         dataType: 'json',
         success: function (data) {
             console.log(data)
-            if(data.code==400) {
-                Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-            }
-            if(data.code=='add200') {
-                Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-                // window.location.reload()
-            }
-            if(data.code=='delete200') {
-                Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-            // window.location.reload()  
-            }                            
         },
         error: function (error) {
             console.log(error)
@@ -51,31 +36,14 @@ $(".f-xingxing").click(function () {
         type: 'get',
         dataType: 'json',
         success: function (data) {
-            if (data.code=='delete200') {
-                // var delUrl: `${index_url}/images/soucang.png`,  //提交地址
-                Dialog.success("温馨提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-                $(that).css('backgroundImage', 'url(/static/index/images/shoucang.png)')
-                $("#f-xingxing").attr('num', "1")
-                var deleto = $("#keepchange").html()
-                var delenum=parseInt(deleto)-1;
-                $("#keepchange").html(delenum)
-            } 
-            if (data.code=='add200') {
-                // var delUrl: `${index_url}/images/soucang.png`,  //提交地址
-                Dialog.success("温馨提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-                $(that).css('backgroundImage', 'url(/static/index/images/soucanged.png)')
-                $("#f-xingxing").attr('num', "2")
-                var deleto = $("#keepchange").html()
-                var delenum=parseInt(deleto)+1;
-                $("#keepchange").html(delenum)
+            if (types == 1) {
+                $(that).css('backgroundImage', 'url(./images/soucang.png)')
+                $("#f-xingxing").attr('num1', "1")
+            } else {
+                console.log(123123)
+                $(that).css('backgroundImage', 'url(./images/soucanged.png)')
+                $("#f-xingxing").attr('num1', "2")
             }
-            if(data.code==400) {
-                Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-            }
-                // window.location.reload()  
         },
         error: function (error) {
             console.log(error)
@@ -94,22 +62,10 @@ $("#comments").on("click", "#c-child", function () {
         dataType: 'json',
         success: function (data) {
             console.log(data)
-            if(data.code==400) {
-                $(that).html("十关注");
-                Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-            }else if(data.code=='add200'){
-                $(that).html("已关注");
-                Dialog.success("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');     
-            }else if(data.code=='delete200'){
+            if (types == 1) {
+                $(that).html("已关注")
+            } else {
                 $(that).html("十关注")
-                Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px'); 
-            }else{
-                $(that).html("已关注");
-                Dialog.success("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px'); 
             }
         },
         error: function (error) {
@@ -129,55 +85,28 @@ $("#follow").click(function () {
         dataType: 'json',
         success: function (data) {
             console.log(data)
-
-            if(data.code==400) {
-                $(that).html("十关注");
-                Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');
-            }else if(data.code=='add200'){
-                $(that).html("已关注");
-                Dialog.success("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px');     
-            }else if(data.code=='delete200'){
+            if (types == 1) {
+                $(that).html("已关注")
+            } else {
                 $(that).html("十关注")
-                Dialog.warn("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px'); 
-            }else{
-                $(that).html("已关注");
-                Dialog.success("提示", data.msg);
-                $('.mini-dialog-footer').css('height','64px'); 
             }
-
-
-            // if (types == 1) {
-            //     $(that).html("已关注")
-            //     Dialog.warn("提示", '您已成功关注');
-            //     $('.mini-dialog-footer').css('height','64px');
-            // } else {
-            //     $(that).html("十关注")
-            //    Dialog.warn("提示", '您已取消关注TA');
-            //     $('.mini-dialog-footer').css('height','64px');
-            // }
         },
         error: function (error) {
             console.log(error)
         }
     })
 });
-
-//子回复
 $("#comments").on("click", ".reply_btn", function () {
     $(".replayi").remove();
     let id = $(this).parent().parent().parent().find(".commentId").attr('data-id')
     console.log(id)
-    console.log(photo_url)
     $(this).parent().parent().parent().append(`<div class="replayi">
     <div class="f-reply-textbox">
                 <div class="f-reply-textbox-photo">
-                    <img src= "`+photo_url+`" alt="">
+                    <img src="" alt="">
                 </div>
                 <div class="f-reply-emoji">
-                    <img src="/static/index/images/emoji.png" alt="" class="emojiIcon emojiIcon1">
+                    <img src="./images/emoji.png" alt="" class="emojiIcon emojiIcon1">
                     <div class="emojiContent emojiContent1">
                         <ul class="emojiList emojiList1"></ul>
                     </div>
@@ -210,7 +139,7 @@ $("#comments").on("click", "#f-btn2", function () {
 
 
 //图片放大查看
-$(".f-contenttop").find('img').click(function () {
+$(".f-contentimg").find('img').click(function () {
     var _this = $(this);//将当前的pimg元素作为_this传入函数
     imgShow("#outerdiv", "#innerdiv", "#bigimg", _this);
 });
@@ -282,8 +211,7 @@ function emojiInit() {
     var list = $(".emojiList");
     for (var i = 1; i <= 149; i++) {
         if (i === 18 || i === 19) continue;
-        // var temp = '<li><img src="../images/emoji/' + i + '.gif" alt=""/></li>';
-        var temp = `<li><img src="${index_url}/images/emoji/${i}.gif" alt=""/></li>`;
+        var temp = '<li><img src="./images/emoji/' + i + '.gif" alt=""/></li>';
         list.append(temp);
     }
     _bindSelectExpression();
@@ -298,8 +226,7 @@ function emojiInit1() {
     var list = $(".emojiList1");
     for (var i = 1; i <= 149; i++) {
         if (i === 18 || i === 19) continue;
-        // var temp = '<li><img src="../images/emoji/' + i + '.gif" alt=""/></li>';
-        var temp = `<li><img src="${index_url}/images/emoji/${i}.gif" alt=""/></li>`;
+        var temp = '<li><img src="./images/emoji/' + i + '.gif" alt=""/></li>';
         list.append(temp);
     }
     _bindSelectExpression1();
@@ -315,7 +242,6 @@ function _bindSelectExpression() {
         var src = $(this).find('img').attr('src');
         var t = src.split('/');
         var item = t[t.length - 1];
-        console.log(item);
         text = '[' + item + ']';
         var input = $("#f-words");
         var value = input.val();
