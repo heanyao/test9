@@ -433,7 +433,7 @@
 	width: 100%;
 }
 
-.j_process_content_box>div:last-child {
+.j_process_content_box .j_sketch {
 	margin: 15px 0px 15px 50px;
 	color: rgba(0, 0, 0, 0.65);
 	line-height: 24px;
@@ -442,6 +442,11 @@
 .j_left_line {
 	margin-left: 26px;
 	border-left: 2px solid #D8D8D8;
+}
+.j_process_stars{
+	margin: 15px 0px 15px 50px;
+	color: rgba(0, 0, 0, 0.65);
+	line-height: 24px;
 }
 
 .j_process_stars>p {
@@ -484,6 +489,7 @@
 
 .j_process_c_img {
 	flex-wrap: wrap;
+	margin: 15px 0px 15px 50px;
 }
 
 .j_process_c_img>img {
